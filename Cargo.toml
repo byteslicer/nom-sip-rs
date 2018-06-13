@@ -1,0 +1,8 @@
+[package]
+name = "sip"
+version = "0.1.0"
+authors = ["Lazzrek <me.teichmann@gmail.com>"]
+
+[dependencies]
+nom = "4.0.0"
+indexmap = "1.0.1"
