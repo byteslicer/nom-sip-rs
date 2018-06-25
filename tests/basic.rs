@@ -8,9 +8,9 @@ fn request_line() {
     let message = "REGISTER sips:ss2.biloxi.example.com SIP/2.0";
     let (rest, parsed) = sip::parse_request_line(CompleteStr(message)).unwrap();
 
-    assert_eq!(parsed.method, CompleteStr("REGISTER"));
-    assert_eq!(parsed.uri, CompleteStr("sips:ss2.biloxi.example.com"));
-    assert_eq!(parsed.version, CompleteStr("SIP/2.0"));
+    assert_eq!(parsed.method, "REGISTER");
+    assert_eq!(parsed.uri, "sips:ss2.biloxi.example.com");
+    assert_eq!(parsed.version, "SIP/2.0");
 }
 
 #[test]
@@ -19,15 +19,15 @@ fn status_line() {
     let (rest, parsed) = sip::parse_status_line(CompleteStr(message)).unwrap();
 
     assert_eq!(parsed.code, 200);
-    assert_eq!(parsed.message, CompleteStr("OK"));
-    assert_eq!(parsed.version, CompleteStr("SIP/2.0"));
+    assert_eq!(parsed.message, "OK");
+    assert_eq!(parsed.version, "SIP/2.0");
 }
 
 #[test]
 fn parse_header() {
     let header = "Via: SIP/2.0/TLS client.biloxi.example.com:5061;branch=z9hG4bKnashds7\r\n";
     let (rest, parsed) = sip::parse_header(header.as_bytes()).unwrap();
-    assert_eq!(parsed, ("Via", CompleteStr("SIP/2.0/TLS client.biloxi.example.com:5061;branch=z9hG4bKnashds7")));
+    assert_eq!(parsed, ("Via", "SIP/2.0/TLS client.biloxi.example.com:5061;branch=z9hG4bKnashds7"));
 }
 
 #[test]
@@ -44,15 +44,15 @@ fn basic_sip() {
 
     let (rest, parsed) = sip::parse(message.as_bytes()).unwrap();
 
-    assert_eq!(parsed.startline, CompleteStr("REGISTER sips:ss2.biloxi.example.com SIP/2.0"));
+    assert_eq!(parsed.startline, "REGISTER sips:ss2.biloxi.example.com SIP/2.0");
 
     let via_list = parsed.headers.get("Via").unwrap();
     assert_eq!(via_list.len(), 1);
-    assert_eq!(via_list[0], CompleteStr("SIP/2.0/TLS client.biloxi.example.com:5061;branch=z9hG4bKnashds7"));
+    assert_eq!(via_list[0], "SIP/2.0/TLS client.biloxi.example.com:5061;branch=z9hG4bKnashds7");
 
     let content_length_list = parsed.headers.get("Content-Length").unwrap();
     assert_eq!(content_length_list.len(), 1);
-    assert_eq!(content_length_list[0], CompleteStr("0"));
+    assert_eq!(content_length_list[0], "0");
 
     /*assert_eq!(parsed.headers[1], "Max-Forwards: 70");
     assert_eq!(parsed.headers[2], "From: Bob <sips:bob@biloxi.example.com>;tag=a73kszlfl");
