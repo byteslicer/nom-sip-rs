@@ -54,13 +54,5 @@ fn basic_sip() {
     assert_eq!(content_length_list.len(), 1);
     assert_eq!(content_length_list[0], "0");
 
-    /*assert_eq!(parsed.headers[1], "Max-Forwards: 70");
-    assert_eq!(parsed.headers[2], "From: Bob <sips:bob@biloxi.example.com>;tag=a73kszlfl");
-    assert_eq!(parsed.headers[3], "To: Bob <sips:bob@biloxi.example.com>");
-    assert_eq!(parsed.headers[4], "Call-ID: 1j9FpLxk3uxtm8tn@biloxi.example.com");
-    assert_eq!(parsed.headers[5], "CSeq: 1 REGISTER");
-    assert_eq!(parsed.headers[6], "Contact: <sips:bob@client.biloxi.example.com>");
-    assert_eq!(parsed.headers[7], "Content-Length: 0");*/
-
     assert_eq!(rest.len(), 0);
 }

@@ -13,12 +13,6 @@ fn not_uri_end(x: char) -> bool {
     is_vchar(x) && x != ';'
 }
 
-/*
-named!(pub parse_uri_params<CompleteStr, (&str, Option<&str>)>,
-    preceded!(tag!(";"), map!(separated_pair!(take_until_s!("="), char!('='), take_while!(not_uri_end)), |(a, b)| (a.0, b.0)))
-);
-*/
-
 named!(pub parse_uri_params<CompleteStr, (&str, Option<&str>)>,
     preceded!(tag!(";"), do_parse!(
         key: take_while!(|c| c != '=' && c != ';') >>
@@ -60,7 +54,6 @@ named!(pub parse_via<CompleteStr, Via >,
     )
 );
 
-
 #[derive(Debug, PartialEq)]
 pub struct NameAddr<'a> {
     pub name: Option<&'a str>,
@@ -95,6 +88,12 @@ pub struct Uri<'a> {
     pub port: Option<u16>,
     pub parameters: HashMap<&'a str, Option<&'a str>>
     //headers: HashMap<&'a str, &'a str>
+}
+
+impl<'a> Uri<'a> {
+    pub fn parse(data: &'a str) -> IResult<CompleteStr, Uri> {
+        parse_uri(CompleteStr(data))
+    }
 }
 
 fn testat(chr: char) -> bool { chr != ':' && chr != '@' }
